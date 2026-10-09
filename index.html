@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="vi"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#070b14"><title>Trường Sơn AI Studio V4</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#070b14;color:#f4f7ff;font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+header{position:sticky;top:0;z-index:5;padding:13px 15px;background:#090e1bfa;border-bottom:1px solid #263149;backdrop-filter:blur(12px)}
+main{max-width:1050px;margin:auto;padding:14px}.brand{display:flex;justify-content:space-between;align-items:center;gap:12px}.brand h1{font-size:18px;margin:0}.badge{font-size:11px;padding:5px 8px;border:1px solid #38445d;border-radius:99px;color:#b9c6df}
+nav{display:flex;gap:7px;overflow:auto;margin:10px 0}.tab{background:#101827;color:#aeb9cc;border:1px solid #273249;border-radius:11px;padding:10px 13px;white-space:nowrap}.active{color:white;background:#21194b;border-color:#785eff}
+.card{background:#101827;border:1px solid #263149;border-radius:17px;padding:15px;margin-bottom:12px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+label{display:block;font-size:12px;color:#c1ccdc;margin:9px 0 5px}textarea,input,select{width:100%;background:#080f1e;color:#fff;border:1px solid #29364f;border-radius:11px;padding:11px;font:inherit}textarea{min-height:105px}
+button{border:0;border-radius:11px;padding:11px 13px;color:#fff;background:#263149;font-weight:700}.primary{background:linear-gradient(135deg,#765df1,#416eff)}.green{background:#11665c}.red{background:#76243a}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.muted{color:#9ca9bd}.notice{font-size:12px;line-height:1.55;padding:10px;background:#0a1324;border-left:3px solid #765df1;border-radius:7px}.progress{height:8px;background:#222d42;border-radius:99px;overflow:hidden}.bar{width:0;height:100%;background:linear-gradient(90deg,#765df1,#18c4b1);transition:.3s}
+.scene{padding:11px;margin-top:9px;border:1px solid #28354d;border-radius:13px;background:#0a1120}.scene img,.scene video{width:100%;max-height:400px;object-fit:cover;border-radius:9px;margin-top:7px}.scene audio{width:100%;margin-top:7px}
+.kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.kpi div{text-align:center;background:#0a1120;border:1px solid #263149;border-radius:10px;padding:10px}.kpi b{display:block;font-size:18px}.hidden{display:none!important}a{color:#a9baff}
+@media(max-width:680px){.grid{grid-template-columns:1fr}.kpi{grid-template-columns:repeat(2,1fr)}}
+</style></head><body>
+<header><div class="brand"><div><h1>🎬 Trường Sơn AI Studio V4</h1><div class="muted" style="font-size:11px">Một ý tưởng → video hoàn chỉnh</div></div><span class="badge">Android / PWA</span></div></header>
+<main>
+<nav><button class="tab active" data-x="studio">Studio</button><button class="tab" data-x="assets">Tài nguyên</button><button class="tab" data-x="projects">Dự án</button><button class="tab" data-x="settings">Tài khoản</button></nav>
+
+<section id="studio">
+<div class="card"><h2 style="margin-top:0">✨ Tạo video</h2>
+<label>Ý tưởng / nội dung</label><textarea id="idea" placeholder="Ví dụ: Triết lý Vĩnh Hằng — một video điện ảnh 60 giây về thời gian, con người và những giá trị còn lại..."></textarea>
+<div class="grid">
+<div><label>Thời lượng</label><select id="duration"><option>30</option><option selected>60</option><option>90</option></select></div>
+<div><label>Tỷ lệ</label><select id="ratio"><option selected>9:16</option><option>16:9</option><option>1:1</option></select></div>
+<div><label>Phong cách</label><select id="style"><option>Điện ảnh, sâu lắng</option><option>Huyền ảo, trừu tượng</option><option>Hiện đại, truyền cảm hứng</option><option>Documentary chân thực</option></select></div>
+</div>
+<label>Nhạc nền</label><input id="music" value="cinematic ambient, emotional, instrumental, no vocals">
+<div class="row" style="margin-top:12px"><button class="primary" id="go">🚀 TẠO VIDEO HOÀN CHỈNH</button><button id="scriptBtn">📝 Kịch bản</button><button class="red" id="stop">Dừng</button></div>
+<div style="margin-top:12px" class="progress"><div class="bar" id="bar"></div></div><div id="status" class="muted" style="font-size:12px;margin-top:6px">Sẵn sàng.</div>
+</div>
+
+<div class="card"><div class="kpi"><div><b id="nsc">0</b><span class="muted">Cảnh</span></div><div><b id="nim">0</b><span class="muted">Ảnh</span></div><div><b id="nvi">0</b><span class="muted">Clip</span></div><div><b id="nau">0</b><span class="muted">Audio</span></div></div></div>
+<div class="card"><h3>📜 Kịch bản</h3><div id="script" class="muted">Chưa có.</div></div>
+<div class="card"><h3>🎞️ Cảnh</h3><div id="scenes" class="muted">Chưa có.</div></div>
+<div class="card hidden" id="final"><h3>🎥 Thành phẩm</h3><video id="out" controls playsinline style="width:100%;border-radius:10px"></video><p><a id="save" download="truong-son-ai-studio-v4.webm">⬇️ Lưu video</a></p><div class="notice">V4 ghép video ngay trên máy bằng MediaRecorder để không phải upload video riêng sang máy chủ. Một số Chrome Android sẽ lưu WebM; V5 có thể thêm render MP4 bằng FFmpeg server.</div></div>
+</section>
+
+<section id="assets" class="hidden"><div class="card"><h2>Tài nguyên</h2><div id="assetList" class="muted">Chưa có.</div></div></section>
+<section id="projects" class="hidden"><div class="card"><h2>Dự án</h2><div id="projectList" class="muted">Chưa có.</div><button class="red" id="clear">Xóa dự án</button></div></section>
+<section id="settings" class="hidden"><div class="card"><h2>🔐 Kết nối Pollinations</h2>
+<div class="notice"><b>Đăng nhập an toàn:</b> dùng App Key <code>pk_</code> để xin quyền từ tài khoản Pollinations của bạn. Không nhập hoặc nhúng khóa bí mật <code>sk_</code> cố định vào ứng dụng.</div>
+<label>App Key của Trường Sơn AI Studio (pk_)</label><input id="appKey" type="password" autocomplete="off" placeholder="pk_...">
+<div class="row" style="margin-top:8px"><button class="primary" id="startDevice">Đăng nhập Pollinations</button><button id="logoutPollinations">Đăng xuất / xóa phiên</button></div>
+<div id="devicePanel" class="scene hidden"><b>Hoàn tất cấp quyền</b><p id="deviceMessage" class="muted">Đang xin mã đăng nhập…</p><p>Mã đăng nhập: <strong id="userCode" style="font-size:24px;letter-spacing:2px"></strong></p><div class="row"><button class="primary" id="openDevice">Mở trang nhập mã</button><button id="copyCode">Sao chép mã</button></div><p class="muted" style="font-size:12px">Chỉ nhập mã tại trang chính thức enter.pollinations.ai/device. Không chia sẻ mã này.</p></div>
+<p id="authStatus" class="status">Chưa đăng nhập.</p>
+<p class="muted" style="font-size:12px">Bản thử nghiệm lưu khóa truy cập trong sessionStorage của tab và xóa khi đăng xuất. Trước khi phát hành APK cần kiểm thử Device Flow, xử lý hết hạn và lưu khóa trong bộ nhớ bảo mật Android.</p>
+</div>
+<div class="card"><h3>📱 Cài như app Android</h3><p class="muted">Đưa app lên HTTPS, mở bằng Chrome Android → ⋮ → Thêm vào màn hình chính.</p></div></section>
+</main>
+
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+let stopped=false,assets=[],project=null,devicePollTimer=null;
+function set(t,p){$('#status').textContent=t;$('#bar').style.width=p+'%'}
+function esc(x){return String(x??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
+function auth(){let k=sessionStorage.getItem('ts_v4_access_token')||'';if(!k)throw Error('Bạn chưa đăng nhập Pollinations. Vào Cài đặt và chọn Đăng nhập Pollinations.');return {'Authorization':'Bearer '+k,'Content-Type':'application/json'}}
+function authStatus(t){$('#authStatus').textContent=t}
+async function startDeviceFlow(){
+ const clientId=$('#appKey').value.trim();
+ if(!clientId.startsWith('pk_')){alert('Nhập App Key bắt đầu bằng pk_.');return}
+ $('#startDevice').disabled=true;authStatus('Đang xin mã đăng nhập…');
+ try{
+  const r=await fetch('https://enter.pollinations.ai/api/device/code',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({client_id:clientId,scope:'generate'})});
+  const data=await r.json();
+  if(!r.ok)throw Error(data.error_description||data.error||('HTTP '+r.status));
+  if(!data.device_code||!data.user_code)throw Error('Phản hồi không có device_code/user_code. Hãy kiểm tra App Key và tài liệu Pollinations.');
+  $('#userCode').textContent=data.user_code;$('#devicePanel').classList.remove('hidden');
+  $('#deviceMessage').textContent='Mở trang Pollinations, nhập mã bên trên và chấp thuận.';
+  $('#openDevice').onclick=()=>window.open(new URL(data.verification_uri||'/device','https://enter.pollinations.ai').href,'_blank','noopener');
+  $('#copyCode').onclick=async()=>{try{await navigator.clipboard.writeText(data.user_code);alert('Đã sao chép mã.')}catch(e){alert('Mã đăng nhập: '+data.user_code)}};
+  authStatus('Đang chờ bạn chấp thuận…');pollDeviceToken(data.device_code);
+ }catch(e){authStatus('Không thể bắt đầu đăng nhập: '+e.message);alert(e.message)}
+ finally{$('#startDevice').disabled=false}
+}
+async function pollDeviceToken(deviceCode){
+ if(devicePollTimer)clearTimeout(devicePollTimer);
+ try{
+  const r=await fetch('https://enter.pollinations.ai/api/device/token',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({device_code:deviceCode})});
+  const data=await r.json();
+  if(r.ok&&data.access_token){sessionStorage.setItem('ts_v4_access_token',data.access_token);$('#devicePanel').classList.add('hidden');authStatus('Đã đăng nhập. Khóa chỉ tồn tại trong phiên tab này.');return}
+  if(data.error==='authorization_pending'){authStatus('Đang chờ chấp thuận…');devicePollTimer=setTimeout(()=>pollDeviceToken(deviceCode),5000);return}
+  if(data.error==='slow_down'){devicePollTimer=setTimeout(()=>pollDeviceToken(deviceCode),8000);return}
+  throw Error(data.error_description||data.error||('HTTP '+r.status));
+ }catch(e){authStatus('Không xác nhận được đăng nhập: '+e.message)}
+}
+function logoutPollinations(){if(devicePollTimer)clearTimeout(devicePollTimer);sessionStorage.removeItem('ts_v4_access_token');$('#devicePanel').classList.add('hidden');authStatus('Đã đăng xuất và xóa khóa khỏi phiên tab.')}
+async function textAI(prompt){
+ let r=await fetch('https://gen.pollinations.ai/v1/chat/completions',{method:'POST',headers:auth(),body:JSON.stringify({model:'openai/gpt-5.6-luna',messages:[{role:'system',content:'Bạn là đạo diễn video. Chỉ trả JSON. Schema: {"title":"","narration":"","scenes":[{"visual":"","motion":"","voice":"","seconds":6}]} Tối đa 12 cảnh. Mỗi voice ngắn, tự nhiên.'},{role:'user',content:prompt}]})});
+ if(!r.ok)throw Error('Text API '+r.status);let j=await r.json(),s=j.choices?.[0]?.message?.content||'';return JSON.parse(s.replace(/^```json|```$/g,'').trim())
+}
+async function getMedia(kind,prompt,params={}){
+ let k=sessionStorage.getItem('ts_v4_access_token')||'';if(!k)throw Error('Bạn cần đăng nhập Pollinations trước.');
+ let u='https://gen.pollinations.ai/'+kind+'/'+encodeURIComponent(prompt),q=new URLSearchParams(params);
+ let r=await fetch(u+(q.toString()?'?'+q.toString():''),{headers:{'Authorization':'Bearer '+k}});
+ if(!r.ok)throw Error(kind+' API '+r.status+': '+(await r.text()).slice(0,250));
+ return URL.createObjectURL(await r.blob())
+}
+async function audio(text){
+ let r=await fetch('https://gen.pollinations.ai/v1/audio/speech',{method:'POST',headers:auth(),body:JSON.stringify({model:'elevenlabs',voice:'nova',input:text,response_format:'mp3'})});if(!r.ok)throw Error('TTS '+r.status);return URL.createObjectURL(await r.blob())
+}
+async function make(){
+ stopped=false;assets=[];$('#final').classList.add('hidden');let idea=$('#idea').value.trim();if(!idea)return alert('Nhập ý tưởng trước.');
+ try{
+  set('Đang viết kịch bản...',5);project=await textAI(`Ý tưởng: ${idea}\nThời lượng: ${$('#duration').value}s\nTỷ lệ: ${$('#ratio').value}\nPhong cách: ${$('#style').value}\nNhạc: ${$('#music').value}`);renderScript(project);
+  let scenes=project.scenes,clips=[];
+  for(let i=0;i<scenes.length;i++){
+   if(stopped)throw Error('Đã dừng');
+   let s=scenes[i],p=`${s.visual}. ${s.motion}. ${$('#style').value}. cinematic consistency, detailed, ${$('#ratio').value}`;
+   set(`Cảnh ${i+1}/${scenes.length}: tạo ảnh`,10+i*75/scenes.length);
+   let img=await getMedia('image',p,{model:'black-forest-labs/flux.2-klein-4b'});assets.push({t:'image',u:img});
+   $('#sc-'+i).innerHTML+=`<img src="${img}">`;$('#nim').textContent=assets.filter(x=>x.t==='image').length;
+   set(`Cảnh ${i+1}/${scenes.length}: tạo video`,20+i*75/scenes.length);
+   let vid=await getMedia('video',p,{model:'google/veo-3.1-fast',duration:Math.min(8,Math.max(4,+s.seconds||6)),aspectRatio:$('#ratio').value,referenceImage:img});clips.push(vid);assets.push({t:'video',u:vid});
+   $('#sc-'+i).innerHTML+=`<video src="${vid}" controls playsinline></video>`;$('#nvi').textContent=clips.length;
+   set(`Cảnh ${i+1}/${scenes.length}: tạo giọng`,25+i*75/scenes.length);
+   let au=await audio(s.voice||'');assets.push({t:'audio',u:au});$('#sc-'+i).innerHTML+=`<audio src="${au}" controls></audio>`;$('#nau').textContent=assets.filter(x=>x.t==='audio').length;
+  }
+  set('Đang ghép thành video...',96);let final=await stitch(clips);$('#out').src=final;$('#save').href=final;$('#final').classList.remove('hidden');save();set('Hoàn tất 🎉',100)
+ }catch(e){console.error(e);set('Lỗi: '+e.message,0);alert(e.message)}
+}
+function renderScript(s){$('#script').innerHTML='<h3>'+esc(s.title)+'</h3><p>'+esc(s.narration)+'</p>';$('#nsc').textContent=s.scenes.length;$('#scenes').innerHTML=s.scenes.map((x,i)=>`<div class="scene"><b>Cảnh ${i+1}</b><p>${esc(x.visual)}</p><p class="muted">${esc(x.motion)}</p><p>🎙️ ${esc(x.voice)}</p><div id="sc-${i}"></div></div>`).join('')}
+async function stitch(urls){
+ let c=document.createElement('canvas'),r=$('#ratio').value;c.width=r==='9:16'?720:1280;c.height=r==='1:1'?720:r==='9:16'?1280:720;
+ let ctx=c.getContext('2d'),st=c.captureStream(30),mime=MediaRecorder.isTypeSupported('video/webm;codecs=vp9')?'video/webm;codecs=vp9':'video/webm',rec=new MediaRecorder(st,{mimeType:mime}),chunks=[];rec.ondataavailable=e=>e.data.size&&chunks.push(e.data);rec.start();
+ for(let u of urls){if(stopped)break;await new Promise(done=>{let v=document.createElement('video');v.src=u;v.crossOrigin='anonymous';v.muted=true;v.playsInline=true;v.onloadedmetadata=()=>{v.play().catch(()=>{});let f=()=>{ctx.drawImage(v,0,0,c.width,c.height);if(!v.ended)requestAnimationFrame(f)};f()};v.onended=done;v.onerror=done;setTimeout(done,20000)})}
+ rec.stop();await new Promise(r=>rec.onstop=r);return URL.createObjectURL(new Blob(chunks,{type:'video/webm'}))
+}
+function save(){let a=JSON.parse(localStorage.getItem('ts_v4')||'[]');a.unshift({title:project.title,date:new Date().toLocaleString(),script:project});localStorage.setItem('ts_v4',JSON.stringify(a.slice(0,10)));renderProjects()}
+function renderProjects(){let a=JSON.parse(localStorage.getItem('ts_v4')||'[]');$('#projectList').innerHTML=a.length?a.map(x=>`<div class="scene"><b>${esc(x.title)}</b><br><span class="muted">${x.date}</span></div>`).join(''):'Chưa có.'}
+$('#go').onclick=make;$('#scriptBtn').onclick=async()=>{try{let s=await textAI($('#idea').value);project=s;renderScript(s);set('Đã xong kịch bản.',100)}catch(e){alert(e.message)}};$('#stop').onclick=()=>stopped=true;
+$('#startDevice').onclick=startDeviceFlow;$('#logoutPollinations').onclick=logoutPollinations;
+$('#clear').onclick=()=>{localStorage.removeItem('ts_v4');renderProjects()};
+$$('.tab').forEach(b=>b.onclick=()=>{$$('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['studio','assets','projects','settings'].forEach(x=>$('#'+x).classList.add('hidden'));$('#'+b.dataset.x).classList.remove('hidden');if(b.dataset.x==='projects')renderProjects();if(b.dataset.x==='assets')$('#assetList').innerHTML=assets.length?assets.map(x=>`<p><a href="${x.u}" target="_blank">Mở ${x.t}</a></p>`).join(''):'Chưa có.'});
+renderProjects();
+</script></body></html>

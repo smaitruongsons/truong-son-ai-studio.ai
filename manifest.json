@@ -1,0 +1,8 @@
+{
+  "name": "Trường Sơn AI Studio V4",
+  "short_name": "TS AI V4",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#070b14",
+  "theme_color": "#070b14"
+}
