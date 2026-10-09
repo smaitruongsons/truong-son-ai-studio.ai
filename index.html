@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="vi"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#070b14"><title>Trường Sơn AI Studio V4</title>
+<meta name="theme-color" content="#070b14"><title>Trường Sơn AI Studio V4.2</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#070b14;color:#f4f7ff;font-family:system-ui,-apple-system,Segoe UI,sans-serif}
 header{position:sticky;top:0;z-index:5;padding:13px 15px;background:#090e1bfa;border-bottom:1px solid #263149;backdrop-filter:blur(12px)}
@@ -15,7 +15,7 @@ button{border:0;border-radius:11px;padding:11px 13px;color:#fff;background:#2631
 .kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.kpi div{text-align:center;background:#0a1120;border:1px solid #263149;border-radius:10px;padding:10px}.kpi b{display:block;font-size:18px}.hidden{display:none!important}a{color:#a9baff}
 @media(max-width:680px){.grid{grid-template-columns:1fr}.kpi{grid-template-columns:repeat(2,1fr)}}
 </style></head><body>
-<header><div class="brand"><div><h1>🎬 Trường Sơn AI Studio V4</h1><div class="muted" style="font-size:11px">Một ý tưởng → video hoàn chỉnh</div></div><span class="badge">Android / PWA</span></div></header>
+<header><div class="brand"><div><h1>🎬 Trường Sơn AI Studio V4.2</h1><div class="muted" style="font-size:11px">Một ý tưởng → video hoàn chỉnh</div></div><span class="badge">Android / PWA</span></div></header>
 <main>
 <nav><button class="tab active" data-x="studio">Studio</button><button class="tab" data-x="assets">Tài nguyên</button><button class="tab" data-x="projects">Dự án</button><button class="tab" data-x="settings">Tài khoản</button></nav>
 
@@ -27,7 +27,10 @@ button{border:0;border-radius:11px;padding:11px 13px;color:#fff;background:#2631
 <div><label>Tỷ lệ</label><select id="ratio"><option selected>9:16</option><option>16:9</option><option>1:1</option></select></div>
 <div><label>Phong cách</label><select id="style"><option>Điện ảnh, sâu lắng</option><option>Huyền ảo, trừu tượng</option><option>Hiện đại, truyền cảm hứng</option><option>Documentary chân thực</option></select></div>
 </div>
-<label>Nhạc nền</label><input id="music" value="cinematic ambient, emotional, instrumental, no vocals">
+<label>Ảnh chân dung tham chiếu (tùy chọn)</label><input id="portraitFile" type="file" accept="image/*"><div id="portraitPreview" class="muted" style="font-size:12px;margin-top:6px">Chưa chọn ảnh chân dung.</div>
+<label>Nhạc nền mô tả cho AI</label><input id="music" value="cinematic ambient, emotional, instrumental, no vocals">
+<label>Chọn nhạc của bạn (MP3/WAV/OGG, tùy chọn)</label><input id="musicFile" type="file" accept="audio/*"><div id="musicPreview" class="muted" style="font-size:12px;margin-top:6px">Chưa chọn file nhạc riêng.</div>
+<div class="notice" style="margin-top:9px">Ảnh chân dung sẽ được gửi tới dịch vụ AI nếu API hỗ trợ ảnh tham chiếu. Nhạc riêng được xử lý trên thiết bị khi ghép video; hãy dùng nhạc bạn có quyền sử dụng.</div>
 <div class="row" style="margin-top:12px"><button class="primary" id="go">🚀 TẠO VIDEO HOÀN CHỈNH</button><button id="scriptBtn">📝 Kịch bản</button><button class="red" id="stop">Dừng</button></div>
 <div style="margin-top:12px" class="progress"><div class="bar" id="bar"></div></div><div id="status" class="muted" style="font-size:12px;margin-top:6px">Sẵn sàng.</div>
 </div>
@@ -35,7 +38,7 @@ button{border:0;border-radius:11px;padding:11px 13px;color:#fff;background:#2631
 <div class="card"><div class="kpi"><div><b id="nsc">0</b><span class="muted">Cảnh</span></div><div><b id="nim">0</b><span class="muted">Ảnh</span></div><div><b id="nvi">0</b><span class="muted">Clip</span></div><div><b id="nau">0</b><span class="muted">Audio</span></div></div></div>
 <div class="card"><h3>📜 Kịch bản</h3><div id="script" class="muted">Chưa có.</div></div>
 <div class="card"><h3>🎞️ Cảnh</h3><div id="scenes" class="muted">Chưa có.</div></div>
-<div class="card hidden" id="final"><h3>🎥 Thành phẩm</h3><video id="out" controls playsinline style="width:100%;border-radius:10px"></video><p><a id="save" download="truong-son-ai-studio-v4.webm">⬇️ Lưu video</a></p><div class="notice">V4 ghép video ngay trên máy bằng MediaRecorder để không phải upload video riêng sang máy chủ. Một số Chrome Android sẽ lưu WebM; V5 có thể thêm render MP4 bằng FFmpeg server.</div></div>
+<div class="card hidden" id="final"><h3>🎥 Thành phẩm</h3><video id="out" controls playsinline style="width:100%;border-radius:10px"></video><p><a id="save" download="truong-son-ai-studio-v4.2.webm">⬇️ Lưu video</a></p><div class="notice">V4.2 ghép video ngay trên máy bằng MediaRecorder để không phải upload video riêng sang máy chủ. Một số Chrome Android sẽ lưu WebM; V5 có thể thêm render MP4 bằng FFmpeg server.</div></div>
 </section>
 
 <section id="assets" class="hidden"><div class="card"><h2>Tài nguyên</h2><div id="assetList" class="muted">Chưa có.</div></div></section>
@@ -53,10 +56,12 @@ button{border:0;border-radius:11px;padding:11px 13px;color:#fff;background:#2631
 
 <script>
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-let stopped=false,assets=[],project=null,devicePollTimer=null;
+let stopped=false,assets=[],project=null,devicePollTimer=null,portraitDataUrl=null,musicObjectUrl=null;
 function set(t,p){$('#status').textContent=t;$('#bar').style.width=p+'%'}
 function esc(x){return String(x??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
 function auth(){let k=sessionStorage.getItem('ts_v4_access_token')||'';if(!k)throw Error('Bạn chưa đăng nhập Pollinations. Vào Cài đặt và chọn Đăng nhập Pollinations.');return {'Authorization':'Bearer '+k,'Content-Type':'application/json'}}
+$('#portraitFile').addEventListener('change',()=>{const f=$('#portraitFile').files[0];if(!f){portraitDataUrl=null;$('#portraitPreview').textContent='Chưa chọn ảnh chân dung.';return}if(!f.type.startsWith('image/')){alert('Hãy chọn file ảnh.');return}const rd=new FileReader();rd.onload=()=>{portraitDataUrl=rd.result;$('#portraitPreview').innerHTML=`<img alt="Ảnh chân dung" src="${portraitDataUrl}" style="width:100%;max-width:180px;border-radius:10px;margin-top:6px">`;};rd.readAsDataURL(f)});
+$('#musicFile').addEventListener('change',()=>{const f=$('#musicFile').files[0];if(musicObjectUrl)URL.revokeObjectURL(musicObjectUrl);musicObjectUrl=null;if(!f){$('#musicPreview').textContent='Chưa chọn file nhạc riêng.';return}if(!f.type.startsWith('audio/')){alert('Hãy chọn file âm thanh.');return}musicObjectUrl=URL.createObjectURL(f);$('#musicPreview').innerHTML=`<div>${esc(f.name)} (${(f.size/1024/1024).toFixed(1)} MB)</div><audio controls src="${musicObjectUrl}" style="width:100%;margin-top:6px"></audio>`;});
 function authStatus(t){$('#authStatus').textContent=t}
 async function startDeviceFlow(){
  const clientId=$('#appKey').value.trim();
@@ -113,20 +118,22 @@ async function make(){
    let img=await getMedia('image',p,{model:'black-forest-labs/flux.2-klein-4b'});assets.push({t:'image',u:img});
    $('#sc-'+i).innerHTML+=`<img src="${img}">`;$('#nim').textContent=assets.filter(x=>x.t==='image').length;
    set(`Cảnh ${i+1}/${scenes.length}: tạo video`,20+i*75/scenes.length);
-   let vid=await getMedia('video',p,{model:'google/veo-3.1-fast',duration:Math.min(8,Math.max(4,+s.seconds||6)),aspectRatio:$('#ratio').value,referenceImage:img});clips.push(vid);assets.push({t:'video',u:vid});
+   let videoParams={model:'google/veo-3.1-fast',duration:Math.min(8,Math.max(4,+s.seconds||6)),aspectRatio:$('#ratio').value,referenceImage:portraitDataUrl||img};let vid=await getMedia('video',p,videoParams);clips.push(vid);assets.push({t:'video',u:vid});
    $('#sc-'+i).innerHTML+=`<video src="${vid}" controls playsinline></video>`;$('#nvi').textContent=clips.length;
    set(`Cảnh ${i+1}/${scenes.length}: tạo giọng`,25+i*75/scenes.length);
    let au=await audio(s.voice||'');assets.push({t:'audio',u:au});$('#sc-'+i).innerHTML+=`<audio src="${au}" controls></audio>`;$('#nau').textContent=assets.filter(x=>x.t==='audio').length;
   }
-  set('Đang ghép thành video...',96);let final=await stitch(clips);$('#out').src=final;$('#save').href=final;$('#final').classList.remove('hidden');save();set('Hoàn tất 🎉',100)
+  set('Đang ghép thành video...',96);let final=await stitch(clips,musicObjectUrl);$('#out').src=final;$('#save').href=final;$('#final').classList.remove('hidden');save();set('Hoàn tất 🎉',100)
  }catch(e){console.error(e);set('Lỗi: '+e.message,0);alert(e.message)}
 }
 function renderScript(s){$('#script').innerHTML='<h3>'+esc(s.title)+'</h3><p>'+esc(s.narration)+'</p>';$('#nsc').textContent=s.scenes.length;$('#scenes').innerHTML=s.scenes.map((x,i)=>`<div class="scene"><b>Cảnh ${i+1}</b><p>${esc(x.visual)}</p><p class="muted">${esc(x.motion)}</p><p>🎙️ ${esc(x.voice)}</p><div id="sc-${i}"></div></div>`).join('')}
-async function stitch(urls){
+async function stitch(urls,musicUrl){
  let c=document.createElement('canvas'),r=$('#ratio').value;c.width=r==='9:16'?720:1280;c.height=r==='1:1'?720:r==='9:16'?1280:720;
- let ctx=c.getContext('2d'),st=c.captureStream(30),mime=MediaRecorder.isTypeSupported('video/webm;codecs=vp9')?'video/webm;codecs=vp9':'video/webm',rec=new MediaRecorder(st,{mimeType:mime}),chunks=[];rec.ondataavailable=e=>e.data.size&&chunks.push(e.data);rec.start();
- for(let u of urls){if(stopped)break;await new Promise(done=>{let v=document.createElement('video');v.src=u;v.crossOrigin='anonymous';v.muted=true;v.playsInline=true;v.onloadedmetadata=()=>{v.play().catch(()=>{});let f=()=>{ctx.drawImage(v,0,0,c.width,c.height);if(!v.ended)requestAnimationFrame(f)};f()};v.onended=done;v.onerror=done;setTimeout(done,20000)})}
- rec.stop();await new Promise(r=>rec.onstop=r);return URL.createObjectURL(new Blob(chunks,{type:'video/webm'}))
+ let ctx=c.getContext('2d'),st=c.captureStream(30),audioCtx=null,musicEl=null,source=null;
+ if(musicUrl){try{audioCtx=new (window.AudioContext||window.webkitAudioContext)();await audioCtx.resume();musicEl=new Audio(musicUrl);musicEl.loop=true;musicEl.volume=.22;source=audioCtx.createMediaElementSource(musicEl);const gain=audioCtx.createGain();gain.gain.value=.8;source.connect(gain);gain.connect(audioCtx.destination);const dest=audioCtx.createMediaStreamDestination();gain.connect(dest);dest.stream.getAudioTracks().forEach(t=>st.addTrack(t));}catch(e){console.warn('Không thể trộn nhạc:',e);alert('Trình duyệt không hỗ trợ trộn nhạc trong video này. Video có thể không có nhạc nền.');}}
+ let mime=MediaRecorder.isTypeSupported('video/webm;codecs=vp9')?'video/webm;codecs=vp9':'video/webm',rec=new MediaRecorder(st,{mimeType:mime}),chunks=[];rec.ondataavailable=e=>e.data.size&&chunks.push(e.data);rec.start();if(musicEl)musicEl.play().catch(()=>{});
+ for(let u of urls){if(stopped)break;await new Promise(done=>{let v=document.createElement('video');v.src=u;v.crossOrigin='anonymous';v.muted=true;v.playsInline=true;let ended=false;const finish=()=>{if(!ended){ended=true;done()}};v.onloadedmetadata=()=>{v.play().catch(()=>{});let f=()=>{try{ctx.drawImage(v,0,0,c.width,c.height)}catch(e){}if(!v.ended&&!stopped)requestAnimationFrame(f)};f()};v.onended=finish;v.onerror=finish;setTimeout(finish,20000)})}
+ if(musicEl)musicEl.pause();rec.stop();await new Promise(r=>rec.onstop=r);if(audioCtx)await audioCtx.close().catch(()=>{});return URL.createObjectURL(new Blob(chunks,{type:'video/webm'}))
 }
 function save(){let a=JSON.parse(localStorage.getItem('ts_v4')||'[]');a.unshift({title:project.title,date:new Date().toLocaleString(),script:project});localStorage.setItem('ts_v4',JSON.stringify(a.slice(0,10)));renderProjects()}
 function renderProjects(){let a=JSON.parse(localStorage.getItem('ts_v4')||'[]');$('#projectList').innerHTML=a.length?a.map(x=>`<div class="scene"><b>${esc(x.title)}</b><br><span class="muted">${x.date}</span></div>`).join(''):'Chưa có.'}
