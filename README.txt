@@ -1,35 +1,27 @@
-TRƯỜNG SƠN AI STUDIO V4.2 — ẢNH THAM CHIẾU & NHẠC RIÊNG
-===================================================
+TRUONG SON AI STUDIO V5 - BAN THU NGHIEM SUA LOI
 
-Đây là bản thử nghiệm nâng cấp dựa trên V4.1. Đây CHƯA PHẢI APK và chưa được kiểm thử đầu-cuối với API trên tài khoản thật.
+CACH CAP NHAT GITHUB PAGES
+1. Giai nen ZIP tren dien thoai neu can.
+2. Mo repo GitHub: https://github.com/smaitruongsons/truong-son-ai-studio.ai
+3. Thay noi dung index.html bang file index.html trong goi nay.
+4. Tai len manifest.json va sw.js vao cung thu muc goc (main). Neu duoc hoi, xac nhan Commit changes.
+5. Cho GitHub Pages cap nhat, sau do mo trang bang Chrome va tai lai.
 
-Thay đổi:
-- Thay ô nhập khóa API cố định bằng giao diện App Key pk_ + Device Flow.
-- Xin mã tại POST https://enter.pollinations.ai/api/device/code.
-- Kiểm tra cấp quyền tại POST https://enter.pollinations.ai/api/device/token, mặc định mỗi 5 giây.
-- Giữ access token trong sessionStorage của tab, không lưu token vào localStorage.
-- Các yêu cầu ảnh/video gửi Authorization: Bearer, không đưa khóa vào URL query.
-- Thêm ô chọn ảnh chân dung và xem trước; ảnh được truyền làm referenceImage khi gọi API video. Việc API chấp nhận dữ liệu ảnh dạng data URL cần được xác minh thực tế.
-- Thêm ô chọn nhạc riêng từ điện thoại; khi trình duyệt hỗ trợ, nhạc được trộn vào luồng ghi WebM trên thiết bị. Đây là nhạc nền, không tự động ghép lời thoại TTS vào bản cuối.
+CHUC NANG V5
+- Dang nhap Pollinations qua device flow (can App Key pk_ da duoc dang ky dung).
+- Goi truc tiep endpoint video, khong tao anh trung gian truoc.
+- Chia video thanh cac clip toi da 8 giay va co gang ghep tren trinh duyet.
+- Loi HTTP se hien ma loi de phan biet 401/402/429/5xx va loi mang.
 
-Cách thử:
-1. Giải nén ZIP.
-2. Phục vụ index.html qua HTTPS hoặc localhost; file:// có thể gặp giới hạn CORS.
-3. Vào Cài đặt -> nhập App Key pk_ -> Đăng nhập Pollinations.
-4. Nhấn mở trang nhập mã chính thức, nhập user_code và chấp thuận.
-5. Quay lại ứng dụng; thử tạo kịch bản trước.
-6. Chọn ảnh chân dung hoặc file nhạc riêng nếu muốn.
-7. Chỉ thử tạo ảnh/video khi tài khoản có đủ số dư; lỗi 402 nghĩa là API yêu cầu số dư mà tài khoản hiện không có.
+CHUA DUOC KIEM THU
+- Chua kiem thu device flow voi App Key cua nguoi dung.
+- Chua kiem thu tao video thuc te voi tai khoan nguoi dung.
+- Chua kiem thu kha nang ghep WebM tren moi may Android.
+- Anh chan dung hien chi xem truoc, chua gui vao model video.
+- Nhac nen chua duoc ghep vao video.
+- Chua dong goi APK.
 
-Quan trọng:
-- Đây là prototype, chưa được kiểm thử đầu-cuối trên tài khoản thật. Nếu có lỗi CORS/401/400, ghi lại thông báo lỗi, không tắt bảo mật trình duyệt.
-- Device Flow được Pollinations mô tả cho CLI/headless clients; tài liệu nói flow vẫn được hỗ trợ. Trước khi phát hành, xác minh App Key được đăng ký phù hợp và kiểm tra luồng trên Android.
-- sessionStorage không phải Android secure storage; script cùng trang có thể đọc token. Bản APK thật nên dùng OAuth/PKCE hoặc tích hợp native an toàn, lưu token trong Android Keystore/secure storage, kiểm tra state/expiry/revocation.
-- Không nhúng khóa sk_ cá nhân cố định vào APK hoặc repository.
-- API model IDs, tham số video, ảnh tham chiếu và TTS vẫn cần kiểm thử với catalog/API hiện tại.
-- Ảnh chân dung sẽ được gửi đến dịch vụ AI bên ngoài khi bắt đầu tạo video. Chỉ chọn ảnh bạn đồng ý chia sẻ với dịch vụ đó.
-- Chức năng nhạc phụ thuộc hỗ trợ MediaRecorder/Web Audio của trình duyệt; đầu ra thường là WebM, không đảm bảo MP4. Nhạc riêng không được tải lên máy chủ.
-- Ghép video dùng MediaRecorder và thường tạo WebM, không đảm bảo MP4.
-- Không có khóa API nào được thêm vào ZIP.
-
-Tài liệu chính thức: https://gen.pollinations.ai/docs
+LUU Y QUAN TRONG
+- Video AI co the ton pollen/chi phi. Video 30 giay can nhieu yeu cau; hay thu 8 giay truoc.
+- HTTP 402/Insufficient balance khong the sua bang cach doi giao dien.
+- Khong bao gio dua khoa sk_ vao ma nguon cong khai.

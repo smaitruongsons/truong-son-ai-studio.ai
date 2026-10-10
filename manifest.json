@@ -1,8 +1,11 @@
 {
-  "name": "Trường Sơn AI Studio V4.2",
-  "short_name": "TS AI V4.2",
-  "start_url": "./index.html",
+  "name": "Trường Sơn AI Studio",
+  "short_name": "Trường Sơn AI",
+  "description": "Ứng dụng thử nghiệm tạo video AI",
+  "start_url": "./",
   "display": "standalone",
-  "background_color": "#070b14",
-  "theme_color": "#070b14"
+  "background_color": "#0a0d18",
+  "theme_color": "#101426",
+  "orientation": "portrait",
+  "icons": []
 }
